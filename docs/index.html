@@ -31,5 +31,36 @@
 </head>
 <body>
   <textarea id="output-area" autofocus></textarea>
+<script>
+document.addEventListener('keydown', function(event) {
+  // Mac: Command + Shift + L
+  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const shortcutPressed = 
+    ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) && 
+    event.shiftKey && 
+    event.key.toLowerCase() === 'l';
+
+  if (shortcutPressed) {    
+    const activeElement = document.activeElement;
+    if (activeElement.tagName.toLowerCase() !== 'textarea') {
+      return;
+    }
+
+    event.preventDefault();
+
+    const textarea = activeElement;
+    
+    const lines = textarea.value.split('\n');
+    const newLines = lines.map(line => {
+      if (line.trim() !== '') {
+        return '  - ' + line;
+      }
+      return line;
+    });
+    
+    textarea.value = newLines.join('\n');
+  }
+});
+</script>
 </body>
 </html>
