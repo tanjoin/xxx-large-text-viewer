@@ -1,2 +1,2 @@
-# xx-large-text-viewer
-xx-large サイズのテキストを表示
+# xxx-large-text-viewer
+xxx-large サイズのテキストを表示
