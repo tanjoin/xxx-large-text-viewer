@@ -1,58 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>xx-large リアルタイム入力</title>
+<title>xxx-large</title>
 <style>
-  /* 1. 貼り付け/入力用の textarea のスタイル */
-  #input-area {
-    width: 95%;
-    height: 150px;
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: large; /* 入力中は見やすいサイズに */
-    border: 2px solid #3498db;
-    box-sizing: border-box;
-    resize: vertical; /* 縦方向のみリサイズ可能に */
-  }
-
-  /* 2. xx-large で表示される出力エリアのスタイル */
   #output-area {
-    font-size: xx-large; /* ★ご要望のフォントサイズ★ */
+    font-size: xx-large;
     min-height: 100px;
     padding: 10px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
-    white-space: pre-wrap; /* テキストエリアの改行を反映させる */
+    white-space: pre-wrap;
   }
 </style>
 </head>
 <body>
-
-  <h1>ここにテキストを貼り付けてください</h1>
-  
-  <textarea id="input-area" placeholder="ここに任意のテキストを貼り付けてください..."></textarea>
-  
-  <h2>$\text{xx-large}$ 表示結果</h2>
-  
-  <div id="output-area"></div>
-
-  <script>
-    // JavaScriptで、入力エリアの内容をリアルタイムで出力エリアに反映します
-    
-    // 要素を取得
-    const inputArea = document.getElementById('input-area');
-    const outputArea = document.getElementById('output-area');
-
-    // inputAreaで入力（または貼り付け）イベントが発生したときに実行される関数
-    inputArea.addEventListener('input', () => {
-      // inputAreaのテキスト内容を取得し、outputAreaにセット
-      // **.value** を使用してテキストエリアの内容を取得し、**.textContent** で出力エリアに反映
-      outputArea.textContent = inputArea.value;
-    });
-
-    // ページロード時に一度実行し、プレースホルダーテキストを削除
-    outputArea.textContent = inputArea.value; 
-
-  </script>
+  <div id="output-area" contenteditable></div>
 </body>
 </html>
