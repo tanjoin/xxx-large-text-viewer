@@ -53,7 +53,7 @@ document.addEventListener('keydown', function(event) {
     const lines = textarea.value.split('\n');
     const newLines = lines.map(line => {
       if (line.trim() !== '') {
-        return '  - ' + line;
+        return '- ' + line;
       }
       return line;
     });
