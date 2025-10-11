@@ -69,15 +69,11 @@ document.addEventListener('keydown', function(event) {
     
     // 現在中央揃えになっているかstyleを見て判断
     if (textarea.style.display === 'flex') {
-      // 元に戻す（左揃え）際にpaddingも元に戻す
-      textarea.style.padding = '';
       textarea.style.display = '';
       textarea.style.justifyContent = '';
       textarea.style.alignItems = '';
       textarea.style.textAlign = '';
     } else {
-      // 中央揃えにする際にpaddingを0にする
-      textarea.style.padding = '0';
       textarea.style.display = 'flex';
       textarea.style.justifyContent = 'center';
       textarea.style.alignItems = 'center';
