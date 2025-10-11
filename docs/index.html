@@ -3,63 +3,85 @@
 <head>
 <title>xxx-large</title>
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  #output-area {
-    width: 100%;
-    height: 100vh;
-    border: none;
-    padding: 20px;
-    box-sizing: border-box;
-    
-    font-size: xxx-large;
-    background-color: #2b2b2b;
-    color: #f0f0f0;
-    white-space: pre-wrap;
-    resize: none;
-  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  #output-area {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    padding: 20px;
+    box-sizing: border-box;
+    
+    font-size: xxx-large;
+    background-color: #2b2b2b;
+    color: #f0f0f0;
+    white-space: pre-wrap;
+    resize: none;
+  }
 
-  #output-area:focus {
-    outline: none;
-  }
+  #output-area:focus {
+    outline: none;
+  }
 </style>
 </head>
 <body>
-  <textarea id="output-area" autofocus></textarea>
+  <textarea id="output-area" autofocus></textarea>
 <script>
 document.addEventListener('keydown', function(event) {
-  // Mac: Command + Shift + L
-  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-  const shortcutPressed = 
-    ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) && 
-    event.shiftKey && 
-    event.key.toLowerCase() === 'l';
+  // リスト化/リスト解除のショートカット
+  const shortcutPressedL = event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'l';
 
-  if (shortcutPressed) {    
-    const activeElement = document.activeElement;
-    if (activeElement.tagName.toLowerCase() !== 'textarea') {
-      return;
-    }
+  if (shortcutPressedL) {
+    event.preventDefault();
+    const textarea = document.getElementById('output-area');
+    const lines = textarea.value.split('\n');
 
-    event.preventDefault();
+    // すべての行がリスト化されているかチェック
+    const allLinesAreList = lines.filter(line => line.trim() !== '').every(line => line.startsWith('- '));
 
-    const textarea = activeElement;
+    let newLines;
+    if (allLinesAreList) {
+      // リスト解除：すべての行の "- " を削除
+      newLines = lines.map(line => line.startsWith('- ') ? line.substring(2) : line);
+    } else {
+      // リスト化：まだリスト化されていない行に "- " を追加
+      newLines = lines.map(line => {
+        if (line.trim() !== '' && !line.startsWith('- ')) {
+          return '- ' + line;
+        }
+        return line;
+      });
+    }
+    textarea.value = newLines.join('\n');
+  }
+
+  // 中央揃え/左揃えのショートカット
+  const shortcutPressedC = event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'c';
+
+  if (shortcutPressedC) {
+    event.preventDefault();
+    const textarea = document.getElementById('output-area');
     
-    const lines = textarea.value.split('\n');
-    const newLines = lines.map(line => {
-      if (line.trim() !== '') {
-        return '- ' + line;
-      }
-      return line;
-    });
-    
-    textarea.value = newLines.join('\n');
-  }
+    // 現在中央揃えになっているかstyleを見て判断
+    if (textarea.style.display === 'flex') {
+      // 元に戻す（左揃え）
+      textarea.style.display = '';
+      textarea.style.justifyContent = '';
+      textarea.style.alignItems = '';
+      textarea.style.textAlign = '';
+    } else {
+      // 中央揃えにする
+      textarea.style.display = 'flex';
+      textarea.style.justifyContent = 'center';
+      textarea.style.alignItems = 'center';
+      textarea.style.textAlign = 'center';
+    }
+  }
 });
 </script>
 </body>
