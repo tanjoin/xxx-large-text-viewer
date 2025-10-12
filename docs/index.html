@@ -18,10 +18,18 @@
     box-sizing: border-box;
     
     font-size: xxx-large;
-    background-color: #2b2b2b;
-    color: #f0f0f0;
     white-space: pre-wrap;
     resize: none;
+  }
+
+  .light-mode {
+    background-color: #f0f0f0;
+    color: #2b2b2b;
+  }
+
+  .black-mode {
+    background-color: #2b2b2b;
+    color: #f0f0f0;
   }
 
   #output-area:focus {
@@ -30,13 +38,10 @@
 </style>
 </head>
 <body>
-  <textarea id="output-area" autofocus></textarea>
+  <textarea class="black-mode" id="output-area" autofocus></textarea>
 <script>
-document.addEventListener('keydown', function(event) {
-  // リスト化/リスト解除のショートカット
-  const shortcutPressedL = event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'l';
-
-  if (shortcutPressedL) {
+class XxxLargeTextViewer {
+  listedLines(event) {
     event.preventDefault();
     const textarea = document.getElementById('output-area');
     const lines = textarea.value.split('\n');
@@ -59,27 +64,65 @@ document.addEventListener('keydown', function(event) {
     }
     textarea.value = newLines.join('\n');
   }
-
-  // 中央揃え/左揃えのショートカット
-  const shortcutPressedC = event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'c';
-
-  if (shortcutPressedC) {
+  centerAlignLines(event) {
     event.preventDefault();
     const textarea = document.getElementById('output-area');
-    
+    const body = document.body;
     // 現在中央揃えになっているかstyleを見て判断
     if (textarea.style.display === 'flex') {
+      body.style.backgroundColor = '';
+      textarea.style.position = '';
+      textarea.style.top = '';
       textarea.style.display = '';
       textarea.style.justifyContent = '';
       textarea.style.alignItems = '';
       textarea.style.textAlign = '';
     } else {
+      body.style.backgroundColor = '#2b2b2b';
+      textarea.style.position = 'absolute';
+      textarea.style.top = '50%';
       textarea.style.display = 'flex';
       textarea.style.justifyContent = 'center';
       textarea.style.alignItems = 'center';
       textarea.style.textAlign = 'center';
     }
   }
+  backgroundColorToggle(event) {
+    event.preventDefault();
+    const textarea = document.getElementById('output-area');
+    const body = document.body;
+    if (textarea.classList.contains('black-mode')) {
+      textarea.classList.remove('black-mode');
+      textarea.classList.add('light-mode');
+      body.style.backgroundColor = '#f0f0f0';
+    } else {
+      textarea.classList.remove('light-mode');
+      textarea.classList.add('black-mode');
+      body.style.backgroundColor = '#2b2b2b';
+    }
+  }
+}
+class ShortcutManager {
+  handleShortcut(event) {
+    if (event.ctrlKey && event.shiftKey) {
+      switch (event.key.toLowerCase()) {
+        case 'l':
+          viewer.listedLines(event);
+          break;
+        case 'c':
+          viewer.centerAlignLines(event);
+          break;
+        case 'b':
+          viewer.backgroundColorToggle(event);
+          break;
+      }
+    }
+  }
+}
+const viewer = new XxxLargeTextViewer();
+const shortcutManager = new ShortcutManager();
+document.addEventListener('keydown', function(event) {
+  shortcutManager.handleShortcut(event);
 });
 </script>
 </body>
