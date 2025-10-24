@@ -111,9 +111,9 @@ class XxxLargeTextViewer {
   switchDisplayGithubLink(event) {
     let element = document.getElementById('github-icon');
     if (element.classList.contains("hidden")) {
-      element.remove("hidden");
+      element.classList.remove("hidden");
     } else {
-      element.add("hidden");
+      element.classList.add("hidden");
     }
   }
 }
